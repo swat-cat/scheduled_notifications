@@ -4,6 +4,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
+import android.os.Build;
 import android.util.Log;
 
 import android.app.Notification;
@@ -53,7 +54,6 @@ public class ScheduleNotificationsService extends Service {
                 try {
                     Drawable icon = getApplicationContext().getPackageManager().getApplicationIcon(getApplicationContext().getPackageName());
                     builder.setContentIntent(contentIntent)
-                            .setSmallIcon(Icon.createWithBitmap(((BitmapDrawable) icon).getBitmap()))
                             .setTicker(tickerText)
                             .setWhen(System.currentTimeMillis())
                             .setAutoCancel(true)
@@ -66,6 +66,13 @@ public class ScheduleNotificationsService extends Service {
                                     RingtoneManager
                                             .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
                             );
+                    if (Build.VERSION.SDK_INT>=23){
+                        builder.setSmallIcon(Icon.createWithBitmap(((BitmapDrawable) icon).getBitmap()));
+                    }
+                    else {
+                        builder.setLargeIcon(((BitmapDrawable) icon).getBitmap());
+                    }
+
                     Notification n = builder.build();
 
                     mNotificationManager
