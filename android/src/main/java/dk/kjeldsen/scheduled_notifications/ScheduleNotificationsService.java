@@ -70,7 +70,8 @@ public class ScheduleNotificationsService extends Service {
                         builder.setSmallIcon(Icon.createWithBitmap(((BitmapDrawable) icon).getBitmap()));
                     }
                     else {
-                        builder.setLargeIcon(((BitmapDrawable) icon).getBitmap());
+                        int id = getApplicationContext().getResources().getIdentifier("ic_launcher", "mipmap", getApplicationContext().getPackageName());
+                        builder.setSmallIcon(id);
                     }
 
                     Notification n = builder.build();
